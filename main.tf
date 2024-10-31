@@ -83,3 +83,10 @@ resource "aws_instance" "nginx_instance" {
     }
 }
 
+#Output the Public IP of the Instance
+#output block is like print for terraform
+output "nginx_instance_public_ip" {
+    value = aws_instance.nginx_instance.public_ip
+    description = "The public IP of the EC2 instance running Nginx"
+}
+
