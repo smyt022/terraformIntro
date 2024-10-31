@@ -1,11 +1,21 @@
 #setup aws provider
-#SENSITIVE PROPERTIES DEFINED HERE:
 #1. access_key, 2. secret_key
-provider "aws" {
-    region = "us-east-2"
-    access_key = "${AWS_ACCESS_KEY_ID}"
-    secret_key = "${AWS_SECRET_ACCESS_KEY}"
+variable "aws_access_key_id" {
+  description = "AWS Access Key ID"
+  type = string
 }
+
+variable "aws_secret_access_key" {
+  description = "AWS Secret Access Key"
+  type = string
+}
+
+provider "aws" {
+  region                  = "us-east-2"
+  access_key             = var.aws_access_key_id
+  secret_key             = var.aws_secret_access_key
+}
+
 
 #Create a Security Group 
 #inbound: port 80 (HTTP)
@@ -73,9 +83,3 @@ resource "aws_instance" "nginx_instance" {
     }
 }
 
-#Output the Public IP of the Instance
-#output block is like print for terraform
-output "nginx_instance_public_ip" {
-    value = aws_instance.nginx_instance.public_ip
-    description = "The public IP of the EC2 instance running Nginx"
-}
